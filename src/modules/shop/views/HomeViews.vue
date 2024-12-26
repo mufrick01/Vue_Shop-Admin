@@ -356,9 +356,19 @@
       </article>
     </div>
   </section>
+
+  <div>{{ isLoading }}</div>
 </template>
 
 <script lang="ts" setup>
-import { tesloApi } from '@/api/tesloApi';
-tesloApi;
+import { getProductsAction } from '@/modules/products/actions';
+import { useQuery } from '@tanstack/vue-query';
+
+
+const { isLoading, } = useQuery({
+  queryKey: ['products', { page: 1 }],
+  queryFn: () => getProductsAction()
+})
+
+
 </script>
