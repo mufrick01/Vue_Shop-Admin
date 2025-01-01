@@ -86,6 +86,11 @@ watchEffect(() => {
     queryKey: ['products', { page: page.value + 1 }],
     queryFn: () => getProductsAction(page.value + 1)
   })
+  if (page.value === 1) return;
+  queryClient.prefetchQuery({
+    queryKey: ['products', { page: page.value - 1 }],
+    queryFn: () => getProductsAction(page.value - 1)
+  })
 })
 
 </script>
