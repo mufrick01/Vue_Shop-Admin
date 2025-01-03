@@ -8,14 +8,28 @@
             d="M21 7.5l-9-5.25L3 7.5m18 0l-9 5.25m9-5.25v9l-9 5.25M3 7.5l9 5.25M3 7.5v9l9 5.25m0-9v9" />
         </svg>
 
-        <span class="self-center whitespace-nowrap text-xl font-semibold">Mufrick01</span>
+        <RouterLink :to="{ name: 'home' }">
+          <span class="self-center whitespace-nowrap text-xl font-semibold">Mufrick01</span>
+        </RouterLink>
       </a>
       <div class="mt-2 sm:mt-0 sm:flex md:order-2">
         <!-- Login Button -->
-        <button type="button"
-          class="rounde mr-3 hidden border border-blue-700 py-1.5 px-6 text-center text-sm font-medium text-blue-700 focus:outline-none focus:ring-4 focus:ring-blue-300 md:inline-block rounded-lg">Login</button>
-        <button type="button"
-          class="rounde mr-3 hidden bg-blue-700 py-1.5 px-6 text-center text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 md:mr-0 md:inline-block rounded-lg">Register</button>
+        <template v-if="!authStore.isAuthenticated">
+          <RouterLink :to="{ name: 'login' }" type="button"
+            class=" mr-3 hidden border border-blue-700 py-1.5 px-6 text-center text-sm font-medium text-blue-700 focus:outline-none focus:ring-4 focus:ring-blue-300 md:inline-block rounded-lg">
+            Login</RouterLink>
+          <RouterLink :to="{ name: 'register' }" type="button"
+            class=" mr-3 hidden bg-blue-700 py-1.5 px-6 text-center text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 md:mr-0 md:inline-block rounded-lg">
+            Register</RouterLink>
+        </template>
+        <template v-if="authStore.isAuthenticated">
+          <RouterLink v-if="authStore.isAdmin" :to="{ name: 'admin' }" type="button"
+            class=" mr-3 hidden border border-blue-700 py-1.5 px-6 text-center text-sm font-medium text-blue-700 focus:outline-none focus:ring-4 focus:ring-blue-300 md:inline-block rounded-lg">
+            Admin</RouterLink>
+          <button @click="authStore.logOut()" type="button"
+            class=" mr-3 hidden bg-red-500 py-1.5 px-6 text-center text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 md:mr-0 md:inline-block rounded-lg">
+            LogOut</button>
+        </template>
         <!-- Register Button -->
         <button data-collapse-toggle="navbar-sticky" type="button"
           class="inline-flex items-center rounded-lg p-2 text-sm text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 md:hidden"
@@ -54,3 +68,12 @@
     </div>
   </nav>
 </template>
+
+<script lang="ts" setup>
+import { useAuthStore } from '@/modules/auth/stores/auth.store';
+
+
+const authStore = useAuthStore();
+
+
+</script>
