@@ -85,9 +85,9 @@
       <div class="my-4 text-right">
         <button type="submit" :class="['text-white font-bold py-2 px-4 rounded transition-all',
           {
-            'disabled:bg-blue-200 disabled: opacity-80': !meta.valid,
+            'disabled:bg-blue-200 disabled: opacity-80': !meta.valid || isPending,
             'bg-blue-500 hover:bg-blue-700': meta.valid
-          }]" :disabled="!meta.valid">
+          }]" :disabled="!meta.valid || isPending">
           Guardar
         </button>
       </div>

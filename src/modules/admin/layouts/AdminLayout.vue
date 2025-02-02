@@ -3,7 +3,7 @@
   <div class="flex w-screen h-screen text-gray-700">
 
     <!-- Component Start -->
-    <div class="flex flex-col items-center w-[400px] pb-4 overflow-auto border-r border-gray-300">
+    <div class="flex flex-col items-center w-16 pb-4 overflow-auto border-r border-gray-300">
       <a class="flex items-center justify-center flex-shrink-0 w-full h-16 bg-gray-300" href="#">
         <svg class="w-8 h-8" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -67,13 +67,14 @@
           <span class="leading-none">Products</span>
         </RouterLink>
 
-        <a class="flex items-center flex-shrink-0 h-10 px-3 mt-auto text-sm font-medium bg-blue-500 text-white rounded hover:bg-blue-600"
+        <RouterLink :to="{ name: 'admin-product', params: { productId: 'create' } }"
+          class="flex items-center flex-shrink-0 h-10 px-3 mt-auto text-sm font-medium bg-blue-500 text-white rounded hover:bg-blue-600"
           href="#">
           <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
           </svg>
           <span class="ml-2 leading-none">Nuevo Producto </span>
-        </a>
+        </RouterLink>
       </div>
 
     </div>
@@ -114,6 +115,7 @@
 </template>
 <script lang="ts" setup>
 import { useAuthStore } from '@/modules/auth/stores/auth.store';
+import { RouterLink } from 'vue-router';
 
 
 const authStore = useAuthStore();

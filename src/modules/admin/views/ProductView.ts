@@ -1,11 +1,13 @@
 import { getProductById } from '@/modules/products/actions/get-product-by-id.action';
-import { useQuery } from '@tanstack/vue-query';
+import { useMutation, useQuery } from '@tanstack/vue-query';
 import { defineComponent, watch, watchEffect } from 'vue';
 import { useFieldArray, useForm } from 'vee-validate';
 import { useRouter } from 'vue-router';
 import * as yup from 'yup';
 import CustomInput from '@/modules/common/components/CustomInput.vue';
 import CustomTextArea from '@/modules/common/components/CustomTextArea.vue';
+import { CreateUpdateProductAction } from '@/modules/products/actions';
+import { useToast } from 'vue-toastification';
 
 const validationSchema = yup.object({
   title: yup.string().required().min(3),
@@ -23,15 +25,26 @@ export default defineComponent({
   },
   setup(props) {
     const router = useRouter();
+    const toast = useToast();
 
     const {
       data: product,
       isError,
       isLoading,
+      refetch,
     } = useQuery({
       queryKey: ['product', props.productId],
       queryFn: () => getProductById(props.productId),
       retry: false,
+    });
+
+    const {
+      mutate,
+      isPending,
+      isSuccess: isUpdateSuccess,
+      data: updatedProduct,
+    } = useMutation({
+      mutationFn: CreateUpdateProductAction,
     });
 
     const { values, defineField, errors, handleSubmit, resetForm, meta } = useForm({
@@ -48,8 +61,8 @@ export default defineComponent({
     const { fields: images } = useFieldArray<string>('images');
     const { fields: sizes, remove: removeSize, push: pushSize } = useFieldArray<string>('sizes');
 
-    const onSubmit = handleSubmit((value) => {
-      console.log(value);
+    const onSubmit = handleSubmit((values) => {
+      mutate(values);
     });
 
     const hasSize = (size: string) => {
@@ -84,6 +97,26 @@ export default defineComponent({
       { deep: true, immediate: true },
     );
 
+    watch(isUpdateSuccess, (value) => {
+      if (!value) return;
+      toast.success('Producto guardado correctamente');
+      router.replace({
+        name: 'admin-product',
+        params: { productId: `${updatedProduct.value?.id}` },
+      });
+
+      resetForm({
+        values: updatedProduct.value,
+      });
+    });
+
+    watch(
+      () => props.productId,
+      () => {
+        refetch();
+      },
+    );
+
     return {
       // properties
       values,
@@ -104,6 +137,8 @@ export default defineComponent({
       stockAttrs,
       gender,
       genderAttrs,
+
+      isPending,
 
       images,
       sizes,
