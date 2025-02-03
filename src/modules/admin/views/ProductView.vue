@@ -97,14 +97,14 @@
   </form>
 
   <!-- vee-validate -->
-  <!-- <div class="grid grid-cols-2 mt-2">
+  <div class="grid grid-cols-2 mt-2">
     <pre class="bg-blue-200 p-2">
       {{ JSON.stringify(values, null, 1) }}
     </pre>
     <pre class="bg-red-200 p-2">
       {{ JSON.stringify(errors, null, 1) }}
     </pre>
-  </div> -->
+  </div>
 
 
 

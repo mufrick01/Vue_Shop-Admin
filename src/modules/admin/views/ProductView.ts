@@ -131,7 +131,6 @@ export default defineComponent({
       });
 
       ImageFiles.value = [];
-      console.log(ImageFiles.value);
     });
 
     watch(
