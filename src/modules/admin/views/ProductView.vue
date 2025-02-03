@@ -59,12 +59,14 @@
         <div class="flex-shrink-0" v-for="image in images" :key="image.value">
           <img :src="image.value" :alt="title" class="w-[250px] h-[250px]" />
         </div>
+        <div class="flex-shrink-0" v-for="(imageFile, index) in ImageFiles" :key="`${imageFile.name}-${index}`">
+          <img :src="temporalImageUrl(imageFile)" :alt="title" class="w-[250px] h-[250px]" />
+        </div>
       </div>
       <!-- Upload image -->
       <div class="col-span-2 my-2">
         <label for="image" class="form-label">Subir imagen</label>
-
-        <input multiple type="file" id="image" class="form-control" />
+        <input multiple type="file" id="image" class="form-control" accept="image/*" @change="onFileChanged" />
       </div>
 
       <div class="mb-4">
@@ -95,14 +97,14 @@
   </form>
 
   <!-- vee-validate -->
-  <div class="grid grid-cols-2 mt-2">
+  <!-- <div class="grid grid-cols-2 mt-2">
     <pre class="bg-blue-200 p-2">
       {{ JSON.stringify(values, null, 1) }}
     </pre>
     <pre class="bg-red-200 p-2">
       {{ JSON.stringify(errors, null, 1) }}
     </pre>
-  </div>
+  </div> -->
 
 
 
